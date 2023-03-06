@@ -7,8 +7,16 @@ const clientName = `User ${Math.ceil(Math.random() * 100)}`;
 ipfsClient.pubsub.publish("nas-streaming", `${clientName} just joined`);
 
 // TODO add webcam feed
+// TODO add textbox for publishing messages
+// TODO list all messages
 ipfsClient.pubsub.subscribe("nas-streaming", (message) => {
   const msgString = new TextDecoder().decode(message.data);
   // TODO Add to HTML
   console.log(msgString);
+});
+
+document.getElementById("comment_btn").addEventListener("click", () => {
+  const commentText = document.getElementById("comment").value;
+  ipfsClient.pubsub.publish("nas-streaming", `${clientName} - ${commentText}`);
+  document.getElementById("comment").value = "";
 });
